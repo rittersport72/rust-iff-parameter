@@ -5,8 +5,8 @@ In IEEE DIS 1278.2-2015 annex B the different encodings for IFF Mode 1, 2, 3A, C
 
 ## Mode 3A Code
 Mode 3A Code is used in civil aviation as transponder code for aircraft identification.  
-Mode 3A record shall be included in Parameter 3 of Fundamental Operational Data record of IFF PDU.
-This is a 16 bit record. The code range is from 0000 to 7777 octal.  
+Mode 3A record is included in Parameter 3 of Fundamental Operational Data record of IFF PDU.
+This is a 16 bits record. The code range is from 0000 to 7777 octal.  
 For example for Mode 3A code 7461:  
 The first digit (7) is code element (A), next digit (4) is code element (B), next digit (6) is code element (C), and last digit (1) is code element (D).
 
@@ -21,7 +21,7 @@ The first digit (7) is code element (A), next digit (4) is code element (B), nex
 | Damage status      | 14      | Enumeration  |
 | Malfunction status | 15      | Enumeration  |
 
-## Usage
+### Usage
 
 ```rust
 // Create M3A record
@@ -43,6 +43,48 @@ let malfunction = m3a.get_malfunction();
 let data = m3a.get();
 // Set data from u16
 m3a.set(0b0100_0101_0101_0101);
+```
+
+## Mode 5 Basic Data
+Mode 5 is used in NATO military aviation as transponder code for aircraft identification.  
+Mode 5 Basic Data record is included in the Mode 5 transponder format for layer 3 of the IFF PDU. This is a 128 bits record.
+
+| Field name                     | Bits |
+|--------------------------------|------|
+| Mode 5 Status                  | 16   |
+| Personal Identification Number | 16   |
+| Mode 5 Message Format Present  | 32   |
+| Enhanced Mode 1                | 16   |
+| National Origin                | 16   |
+| Supplemental data              | 8    |
+| Navigation Source              | 8    |
+| Figure of Merit                | 8    |
+| Padding                        | 8    |
+
+### Usage
+
+```rust
+// Create M5 record
+let mut m5 = M5Record::default();
+
+// M5 struct encoding
+m5.set_pin(42);
+m5.set_enhanced_mode_1(26);
+m5.set_national_origin(711);
+
+// M5 struct decoding
+let pin = m5.get_pin()
+let em1 = m5.get_enhanced_mode_1();
+let no = m5.get_national_origin();
+
+// Convert struct to byte stream
+let array = m5.to_bytes();
+
+// New message
+let mut object = M5Record::default();
+
+// Convert byte stream to struct
+object.from_bytes(&array);
 ```
 
 # References
