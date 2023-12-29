@@ -1,4 +1,4 @@
-# iff-parameter 
+# rust-iff-parameter 
 The Distributed Interactive Simulation (DIS) protocol transmits Identification Friend or Foe (IFF) in a 
 Packet Data Unit (PDU). This library helps with encoding and decoding of IFF mode parameters.  
 In IEEE DIS 1278.2-2015 annex B the different encodings for IFF Mode 1, 2, 3A, C, 4, 5, S are described.
@@ -6,7 +6,7 @@ In IEEE DIS 1278.2-2015 annex B the different encodings for IFF Mode 1, 2, 3A, C
 ## Mode 3A Code
 Mode 3A Code is used in civil aviation as transponder code for aircraft identification.  
 Mode 3A record shall be included in Parameter 3 of Fundamental Operational Data record of IFF PDU.
-This is a 16 bit record. The code range is from 0000 to 7777.  
+This is a 16 bit record. The code range is from 0000 to 7777 octal.  
 For example for Mode 3A code 7461:  
 The first digit (7) is code element (A), next digit (4) is code element (B), next digit (6) is code element (C), and last digit (1) is code element (D).
 
