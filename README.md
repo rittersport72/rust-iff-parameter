@@ -87,6 +87,41 @@ let mut object = M5Record::default();
 object.from_bytes(&array);
 ```
 
+## Mode C Altitude
+Mode C Altitude is used in civil aviation to transmit encoded altitude information.  
+Mode C record is included in Parameter 5 of Fundamental Operational Data record of IFF PDU.
+This is a 16 bits record.
+
+| Field name         | Bits    | Value            |
+|--------------------|---------|------------------|
+| Altitude Indicator | 0       | Enumeration      |
+| Mode C Altitude    | 1 to 11 | Unsigned Integer |
+| Padding            | 12      | 0                |
+| On/Off status      | 13      | Enumeration      |
+| Damage status      | 14      | Enumeration      |
+| Malfunction status | 15      | Enumeration      |
+
+### Usage
+
+```rust
+// Create MC record
+let mut mc = MCRecord::default();
+
+// MC struct encoding
+mc.set_altitude_msl(true);
+mc.set_altitude(42);
+
+// MC struct decoding
+let msl = mc.get_altitude_msl();
+let altitude = mc.get_altitude();
+
+// Get data as u16
+let data = mc.get();
+// Set data from u16
+mc.set(0b0100_0101_0101_0101);
+```
+
 # References
 Distributed Interactive Simulation https://en.wikipedia.org/wiki/Distributed_Interactive_Simulation  
 IEEE Standard for DIS 1278.2-2015 https://standards.ieee.org/ieee/1278.2/6202
+ 
