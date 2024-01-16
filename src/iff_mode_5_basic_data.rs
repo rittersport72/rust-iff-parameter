@@ -54,6 +54,14 @@ impl M5Record {
         return u16::from_be(self.pin);
     }
 
+    pub fn set_message_formats(&mut self, message_formats: u32) {
+        self.m5_message_formats = message_formats.to_be();
+    }
+
+    pub fn get_message_formats(&self) -> u32 {
+        return u32::from_be(self.m5_message_formats);
+    }
+
     pub fn set_enhanced_mode_1(&mut self, enhanced_mode_1: u16) {
         self.enhanced_mode_1 = enhanced_mode_1.to_be();
     }
@@ -68,6 +76,30 @@ impl M5Record {
 
     pub fn get_national_origin(&self) -> u16 {
         return u16::from_be(self.national_origin);
+    }
+
+    pub fn set_supplemental_data(&mut self, supplemental_data: u8) {
+        self.supplemental_data = supplemental_data.to_be();
+    }
+
+    pub fn get_supplemental_data(&self) -> u8 {
+        return u8::from_be(self.supplemental_data);
+    }
+
+    pub fn set_navigation_source(&mut self, navigation_source: u8) {
+        self.navigation_source = navigation_source.to_be();
+    }
+
+    pub fn get_navigation_source(&self) -> u8 {
+        return u8::from_be(self.navigation_source);
+    }
+
+    pub fn set_figure_merit(&mut self, figure_of_merit: u8) {
+        self.figure_of_merit = figure_of_merit.to_be();
+    }
+
+    pub fn get_figure_merit(&self) -> u8 {
+        return u8::from_be(self.figure_of_merit);
     }
 
     /*
