@@ -1,6 +1,6 @@
-mod iff_mode_3a;
-mod iff_mode_5_basic_data;
-mod iff_mode_c;
+pub mod iff_mode_3a;
+pub mod iff_mode_5_basic_data;
+pub mod iff_mode_c;
 
 #[cfg(test)]
 mod tests {

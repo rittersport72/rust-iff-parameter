@@ -1,9 +1,12 @@
 use std::mem;
+use m5_status::M5StatusRecord;
+
+pub mod m5_status;
 
 #[repr(packed(1))]
 #[derive(Default, Debug, PartialEq, Clone, Copy)]
 pub struct M5Record {
-    m5_status: u16,
+    m5_status: M5StatusRecord,
     pin: u16,
     m5_message_formats: u32,
     enhanced_mode_1: u16,
@@ -38,12 +41,12 @@ impl M5Record {
         array.try_into().expect("slice with incorrect length")
     }
 
-    pub fn set_m5_status(&mut self, status: u16) {
-        self.m5_status = status.to_be();
+    pub fn set_m5_status(&mut self, status: M5StatusRecord) {
+        self.m5_status = status;
     }
 
-    pub fn get_m5_status(&self) -> u16 {
-        return u16::from_be(self.m5_status);
+    pub fn get_m5_status(&self) -> M5StatusRecord {
+        return self.m5_status;
     }
 
     pub fn set_pin(&mut self, pin: u16) {
@@ -114,12 +117,17 @@ mod tests {
 
     #[test]
     fn m5_status() {
+        let mut m5_status = M5StatusRecord::default();
+        m5_status.set_on_off(true);
+        m5_status.set_damage(true);
+        m5_status.set_malfunction(true);
+
         let mut m5 = M5Record::default();
-        m5.set_m5_status(42);
+        m5.set_m5_status(m5_status);
 
         // Convert struct to byte stream
         let array = m5.to_bytes();
-        assert_eq!(array[1], 42);
+        assert_eq!(array[1], 224);
 
         // New message
         let mut object = M5Record::default();
