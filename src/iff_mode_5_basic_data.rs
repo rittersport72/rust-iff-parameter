@@ -1,5 +1,6 @@
 use std::mem;
 use m5_status::M5StatusRecord;
+use crate::iff_mode_1e::M1eRecord;
 
 pub mod m5_status;
 
@@ -9,7 +10,7 @@ pub struct M5Record {
     m5_status: M5StatusRecord,
     pin: u16,
     m5_message_formats: u32,
-    enhanced_mode_1: u16,
+    enhanced_mode_1: M1eRecord,
     national_origin: u16,
     supplemental_data: u8,
     navigation_source: u8,
@@ -65,12 +66,12 @@ impl M5Record {
         return u32::from_be(self.m5_message_formats);
     }
 
-    pub fn set_enhanced_mode_1(&mut self, enhanced_mode_1: u16) {
-        self.enhanced_mode_1 = enhanced_mode_1.to_be();
+    pub fn set_enhanced_mode_1(&mut self, enhanced_mode_1: M1eRecord) {
+        self.enhanced_mode_1 = enhanced_mode_1;
     }
 
-    pub fn get_enhanced_mode_1(&self) -> u16 {
-        return u16::from_be(self.enhanced_mode_1);
+    pub fn get_enhanced_mode_1(&self) -> M1eRecord {
+        return self.enhanced_mode_1;
     }
 
     pub fn set_national_origin(&mut self, national_origin: u16) {
@@ -114,6 +115,7 @@ impl M5Record {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::iff_mode_123::OctalCode;
 
     #[test]
     fn m5_status() {
@@ -158,12 +160,16 @@ mod tests {
 
     #[test]
     fn enhanced_mode_1() {
+        let mut m1e = M1eRecord::default();
+        m1e.set_code(OctalCode(1, 2, 3, 4));
+
         let mut m5 = M5Record::default();
-        m5.set_enhanced_mode_1(42);
+        m5.set_enhanced_mode_1(m1e);
 
         // Convert struct to byte stream
         let array = m5.to_bytes();
-        assert_eq!(array[9], 42);
+        assert_eq!(array[8], 209);
+        assert_eq!(array[9], 8);
 
         // New message
         let mut object = M5Record::default();

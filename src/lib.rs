@@ -8,6 +8,7 @@ pub mod iff_mode_c;
 #[cfg(test)]
 mod tests {
     use super::*;
+    use iff_mode_1e::M1eRecord;
     use iff_mode_123::{OctalCode, M123Record};
     use iff_mode_5_basic_data::M5Record;
     use iff_mode_c::MCRecord;
@@ -29,13 +30,16 @@ mod tests {
 
     #[test]
     fn test_m5_record() {
+        let mut m1e = M1eRecord::default();
+        m1e.set_code(OctalCode(1, 2, 3, 4));
+
         let mut m5 = M5Record::default();
         m5.set_pin(42);
-        m5.set_enhanced_mode_1(26);
+        m5.set_enhanced_mode_1(m1e);
         m5.set_national_origin(711);
 
         assert_eq!(m5.get_pin(), 42);
-        assert_eq!(m5.get_enhanced_mode_1(), 26);
+        assert_eq!(m5.get_enhanced_mode_1(), m1e);
         assert_eq!(m5.get_national_origin(), 711);
     }
 
