@@ -1,3 +1,6 @@
+pub mod iff_mode_123;
+pub mod iff_mode_1e;
+pub mod iff_mode_2;
 pub mod iff_mode_3a;
 pub mod iff_mode_5_basic_data;
 pub mod iff_mode_c;
@@ -5,23 +8,23 @@ pub mod iff_mode_c;
 #[cfg(test)]
 mod tests {
     use super::*;
-    use iff_mode_3a::{OctalCode, M3aRecord};
+    use iff_mode_123::{OctalCode, M123Record};
     use iff_mode_5_basic_data::M5Record;
     use iff_mode_c::MCRecord;
 
     #[test]
     fn test_m3a_record() {
-        let mut m3a = M3aRecord::default();
-        m3a.set(0b0101_0101_0101_0101);
-        m3a.set_code(OctalCode(1, 2, 3, 4));
-        m3a.set_on_off(true);
-        m3a.set_damage(true);
-        m3a.set_malfunction(true);
+        let mut m123 = M123Record::default();
+        m123.set(0b0101_0101_0101_0101);
+        m123.set_code(OctalCode(1, 2, 3, 4));
+        m123.set_on_off(true);
+        m123.set_damage(true);
+        m123.set_malfunction(true);
 
-        assert_eq!(m3a.get_code(), OctalCode(1, 2, 3, 4));
-        assert_eq!(m3a.get_on_off(), true);
-        assert_eq!(m3a.get_damage(), true);
-        assert_eq!(m3a.get_malfunction(), true);
+        assert_eq!(m123.get_code(), OctalCode(1, 2, 3, 4));
+        assert_eq!(m123.get_on_off(), true);
+        assert_eq!(m123.get_damage(), true);
+        assert_eq!(m123.get_malfunction(), true);
     }
 
     #[test]
