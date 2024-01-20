@@ -49,17 +49,17 @@ m3a.set(0b0100_0101_0101_0101);
 Mode 5 is used in NATO military aviation as transponder code for aircraft identification.  
 Mode 5 Basic Data record is included in the Mode 5 transponder format for layer 3 of the IFF PDU. This is a 128 bits record.
 
-| Field name                     | Bits |
-|--------------------------------|------|
-| Mode 5 Status                  | 16   |
-| Personal Identification Number | 16   |
-| Mode 5 Message Format Present  | 32   |
-| Enhanced Mode 1                | 16   |
-| National Origin                | 16   |
-| Supplemental data              | 8    |
-| Navigation Source              | 8    |
-| Figure of Merit                | 8    |
-| Padding                        | 8    |
+| Field name                     | Bits | Value            |
+|--------------------------------|------|------------------|
+| Mode 5 Status                  | 16   | Struct           |
+| Personal Identification Number | 16   | Unsigned Integer |
+| Mode 5 Message Format Present  | 32   | Enumeration      |
+| Enhanced Mode 1                | 16   | Struct           |
+| National Origin                | 16   | Unsigned Integer |
+| Supplemental data              | 8    | Struct           |
+| Navigation Source              | 8    | Enumeration      |
+| Figure of Merit                | 8    | 0 to 31          |
+| Padding                        | 8    | 0x00             |
 
 ### Usage
 
