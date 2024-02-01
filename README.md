@@ -64,15 +64,24 @@ Mode 5 Basic Data record is included in the Mode 5 transponder format for layer 
 ### Usage
 
 ```rust
+// Create M5 status
+let m5_status = M5StatusRecord::default();
+
+// Create M1 enhanced
+let mut m1e = M1eRecord::default();
+m1e.set_code(OctalCode(1, 2, 3, 4));
+
 // Create M5 record
 let mut m5 = M5Record::default();
 
 // M5 struct encoding
+m5.set_m5_status(m5_status);
 m5.set_pin(42);
-m5.set_enhanced_mode_1(26);
+m5.set_enhanced_mode_1(m1e);
 m5.set_national_origin(711);
 
 // M5 struct decoding
+let m5stat = m5.get_m5_status();
 let pin = m5.get_pin()
 let em1 = m5.get_enhanced_mode_1();
 let no = m5.get_national_origin();
@@ -108,8 +117,8 @@ This is a 16 bits record.
 let mut mc = MCRecord::default();
 
 // MC struct encoding
-mc.set_altitude_msl(true);
-mc.set_altitude(42);
+mc.set_altitude_msl(false); // above MSL
+mc.set_altitude(42); // in 100 foot increments
 
 // MC struct decoding
 let msl = mc.get_altitude_msl();
