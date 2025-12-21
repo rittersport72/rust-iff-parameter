@@ -9,20 +9,26 @@ pub mod iff_mode_c;
 mod tests {
     use super::*;
     use iff_mode_1e::M1eRecord;
-    use iff_mode_123::{OctalCode, M123Record};
+    use iff_mode_123::{M123Record, octal_4_digit};
     use iff_mode_5_basic_data::M5Record;
     use iff_mode_c::MCRecord;
 
     #[test]
     fn test_m3a_record() {
+        let mut octal_code = octal_4_digit::Octal4Digit::default();
+        octal_code.set((1, 2, 3, 4));
+
         let mut m123 = M123Record::default();
         m123.set(0b0101_0101_0101_0101);
-        m123.set_code(OctalCode(1, 2, 3, 4));
+        m123.set_code(octal_code);
         m123.set_on_off(true);
         m123.set_damage(true);
         m123.set_malfunction(true);
 
-        assert_eq!(m123.get_code(), OctalCode(1, 2, 3, 4));
+        let mut octal_code = octal_4_digit::Octal4Digit::default();
+        octal_code.set((1, 2, 3, 4));
+
+        assert_eq!(m123.get_code(), octal_code);
         assert_eq!(m123.get_on_off(), true);
         assert_eq!(m123.get_damage(), true);
         assert_eq!(m123.get_malfunction(), true);
@@ -30,8 +36,11 @@ mod tests {
 
     #[test]
     fn test_m5_record() {
+        let mut octal_code = octal_4_digit::Octal4Digit::default();
+        octal_code.set((1, 2, 3, 4));
+
         let mut m1e = M1eRecord::default();
-        m1e.set_code(OctalCode(1, 2, 3, 4));
+        m1e.set_code(octal_code);
 
         let mut m5 = M5Record::default();
         m5.set_pin(42);

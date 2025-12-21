@@ -1,6 +1,4 @@
-
-#[derive(Default, Debug, PartialEq, Clone, Copy)]
-pub struct OctalCode(pub u8, pub u8, pub u8, pub u8);
+pub mod octal_4_digit;
 
 #[derive(Default, Debug, PartialEq, Clone, Copy)]
 pub struct M123Record {
@@ -16,22 +14,22 @@ impl M123Record {
         self.m123_code_record
     }
 
-    pub fn set_code(&mut self, code: OctalCode) {
+    pub fn set_code(&mut self, code: octal_4_digit::Octal4Digit) {
         // Set all m3a code bits to zero
         self.m123_code_record = self.m123_code_record & !Self::CODE_MASK;
 
         // Concatenate code bits
-        let element_1 = code.0 as u16;
-        let element_2 = (code.1 as u16) << 3;
-        let element_3 = (code.2 as u16) << 6;
-        let element_4 = (code.3 as u16) << 9;
+        let element_1 = code.get().0 as u16;
+        let element_2 = (code.get().1 as u16) << 3;
+        let element_3 = (code.get().2 as u16) << 6;
+        let element_4 = (code.get().3 as u16) << 9;
         let code = element_1 | element_2 | element_3 | element_4;
 
         // Set m3a code bits
         self.m123_code_record = self.m123_code_record | code;
     }
 
-    pub fn get_code(&self) -> OctalCode {
+    pub fn get_code(&self) -> octal_4_digit::Octal4Digit {
         // Get all m3a code bits
         let code = self.m123_code_record & Self::CODE_MASK;
 
@@ -42,8 +40,15 @@ impl M123Record {
         let element_4 = (code & Self::CODE_ELEMENT_4) >> 9;
 
         // Set OctalCode
-        let code = OctalCode(element_1 as u8, element_2 as u8, element_3 as u8, element_4 as u8);
-        code
+        let octal_code = (
+            element_1 as u8,
+            element_2 as u8,
+            element_3 as u8,
+            element_4 as u8,
+        );
+        let mut octal = octal_4_digit::Octal4Digit::default();
+        octal.set(octal_code);
+        octal
     }
 
     pub fn set_on_off(&mut self, state: bool) {
@@ -114,13 +119,16 @@ mod tests {
 
     #[test]
     fn code() {
+        let mut octal_code = octal_4_digit::Octal4Digit::default();
+        octal_code.set((1, 2, 3, 4));
+
         let mut m123 = M123Record::default();
-        m123.set_code(OctalCode(1, 2, 3, 4));
+        m123.set_code(octal_code);
 
         assert_eq!(m123.get(), 0b0000_1000_1101_0001);
 
         let code = m123.get_code();
-        assert_eq!(code, OctalCode(1, 2, 3, 4));
+        assert_eq!(code, octal_code);
     }
 
     #[test]
