@@ -115,7 +115,7 @@ impl M5Record {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::iff_mode_123::octal_4_digit;
+    use crate::iff_mode_123::octal_4_digits;
 
     #[test]
     fn m5_status() {
@@ -160,7 +160,7 @@ mod tests {
 
     #[test]
     fn enhanced_mode_1() {
-        let mut octal_code = octal_4_digit::Octal4Digit::default();
+        let mut octal_code = octal_4_digits::Octal4Digits::default();
         octal_code.set((1, 2, 3, 4));
 
         let mut m1e = M1eRecord::default();

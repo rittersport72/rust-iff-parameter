@@ -27,8 +27,12 @@ The first digit (7) is code element (A), next digit (4) is code element (B), nex
 // Create M3A record
 let mut m3a = M3aRecord::default();
 
+// Create octal 4 digits
+let mut octal_code = octal_4_digits::Octal4Digits::default();
+octal_code.set((1, 2, 3, 4));
+
 // M3A struct encoding
-m3a.set_code(OctalCode(7, 4, 6, 1));
+m3a.set_code(octal_code);
 m3a.set_on_off(true);
 m3a.set_damage(true);
 m3a.set_malfunction(true);
@@ -67,9 +71,13 @@ Mode 5 Basic Data record is included in the Mode 5 transponder format for layer 
 // Create M5 status
 let m5_status = M5StatusRecord::default();
 
+// Create octal 4 digits
+let mut octal_code = octal_4_digits::Octal4Digits::default();
+octal_code.set((1, 2, 3, 4));
+
 // Create M1 enhanced
 let mut m1e = M1eRecord::default();
-m1e.set_code(OctalCode(1, 2, 3, 4));
+m1e.set_code(octal_code);
 
 // Create M5 record
 let mut m5 = M5Record::default();

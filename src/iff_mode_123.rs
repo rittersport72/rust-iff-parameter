@@ -1,4 +1,4 @@
-pub mod octal_4_digit;
+pub mod octal_4_digits;
 
 #[derive(Default, Debug, PartialEq, Clone, Copy)]
 pub struct M123Record {
@@ -14,7 +14,7 @@ impl M123Record {
         self.m123_code_record
     }
 
-    pub fn set_code(&mut self, code: octal_4_digit::Octal4Digit) {
+    pub fn set_code(&mut self, code: octal_4_digits::Octal4Digits) {
         // Set all m3a code bits to zero
         self.m123_code_record = self.m123_code_record & !Self::CODE_MASK;
 
@@ -29,7 +29,7 @@ impl M123Record {
         self.m123_code_record = self.m123_code_record | code;
     }
 
-    pub fn get_code(&self) -> octal_4_digit::Octal4Digit {
+    pub fn get_code(&self) -> octal_4_digits::Octal4Digits {
         // Get all m3a code bits
         let code = self.m123_code_record & Self::CODE_MASK;
 
@@ -46,7 +46,7 @@ impl M123Record {
             element_3 as u8,
             element_4 as u8,
         );
-        let mut octal = octal_4_digit::Octal4Digit::default();
+        let mut octal = octal_4_digits::Octal4Digits::default();
         octal.set(octal_code);
         octal
     }
@@ -119,7 +119,7 @@ mod tests {
 
     #[test]
     fn code() {
-        let mut octal_code = octal_4_digit::Octal4Digit::default();
+        let mut octal_code = octal_4_digits::Octal4Digits::default();
         octal_code.set((1, 2, 3, 4));
 
         let mut m123 = M123Record::default();
